@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>学习笔记</title>
+    <link href="/2025/12/23/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <url>/2025/12/23/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><ol><li><p>web搭建模式：</p><ul><li>子域名模式：网站一样，子域名不一样，是不同目标<ul><li><a href="http://www.xiaodi8.com/">www.xiaodi8.com</a> zblog asp程序</li><li>xiaodi.xiaodi8.com wordpress php程序</li></ul></li><li>端口模式：子域名以及网站名一样，端口不一样，是不同目标<ul><li><a href="http://www.xiaodi8.com/">www.xiaodi8.com</a> zblog asp程序</li><li><a href="http://www.xiaodi8.com:8080/">www.xiaodi8.com:8080</a> wordpress php程序</li></ul></li><li>目录模式：不同目录是不同的目标</li></ul></li><li><p>开源-源码不可见，加密，语言特性</p></li><li><p>路由访问：</p><ul><li>常规：访问该目录下的指定文件 URL和文件目录对应上</li><li>URL和文件目录对应不上，要根据配置路由决定</li></ul></li><li><p>站库分离：</p><ul><li>原理：源码数据库不在同服务器工</li><li>存储：其他服务器上数据库&amp;云数据库产品</li><li>影响：数据被单独存放，能连接才可影响数据</li></ul></li><li><p>数据库（MySQL&#x2F;Redis）</p><ul><li>MySQL：利用 union select 注入获取数据、破解数据库密码哈希、提权（如UDF提权）；</li><li>Redis：未授权访问后写入公钥&#x2F;计划任务提权、数据泄露；</li><li>防护要点：开启数据库防火墙、使用预编译语句防注入、限制数据库账户权限。</li></ul></li><li><p>Web服务器（Nginx&#x2F;Apache）</p><ul><li>安全配置要点：关闭目录浏览、隐藏版本号、配置反向代理防直接访问后端；</li><li>常见漏洞：Nginx解析漏洞（如 *.php.xxx 解析为PHP）、Apache多后缀解析漏洞、缓存区溢出漏洞；</li><li>渗透测试方法：利用 nmap 扫描版本，结合EXP测试对应漏洞；检查 robots.txt 、 .htaccess 等配置文件泄露。</li></ul></li><li><p>应用服务器（Tomcat&#x2F;Node.js）</p><ul><li>Tomcat安全：默认弱口令（tomcat&#x2F;tomcat）、管理后台未授权访问、WAR包部署漏洞；</li><li>Node.js安全： eval() 函数注入、依赖包漏洞（如 npm audit 检测）、跨站脚本漏洞；</li><li>测试要领：尝试访问管理后台、上传恶意WAR包&#x2F;脚本，利用工具检测依赖漏洞。</li></ul></li><li><p>前后端分离</p><ul><li>原理:前端JS框架，API传输数据</li><li>影响:<ul><li>1、前端页面大部分不存在漏洞</li><li>2、后端管理大部分不在同域名</li><li>3、获得权限有可能不影响后端</li></ul></li></ul></li><li><p>正反向代理：</p><ul><li>正向代理：为客户端服务，客户端主动建立代理访问目标(不代理不可达)</li><li>反向代理：为服务端服务，服务端主动转发数据给可访问地址(不主动不可达)</li><li>正向代理和反向代理都是解决访问不可达的问题，但由于反向代理中多出一个可以重定向解析的功能操作，导致反代理出的站点指向和真实应用毫无关系</li><li>将真实的网站指向任意一个地方</li><li>影响：访问目标只是一个代理，非真实应用服务器</li></ul></li><li><p>WAF</p><ul><li>原理：Web应用防火墙，防护保护Web</li><li>影响：安全测试手法会受到拦截</li></ul></li><li><p>CDN</p><ul><li>原理：内容分发服务，提高访问速度</li><li>影响：隐藏真实IP，导致信息收集目标错误</li></ul></li><li><p>OSS</p><ul><li>原理：云存储服务，提高资源文件加载速度</li><li>影响：</li><li>资源单独存储，修复上传漏洞，文件解析不复存在，同时也会有Accesskey泄漏安全问题</li></ul></li><li><p>负载均衡：</p><ul><li>原理：分摊到多个操作单元上进行执行，共同完成工作任务</li><li>影响：有多个服务器加载服务，测试过程中存在多个目标情况</li></ul></li><li><p>Docker核心组件的安全风险</p><ul><li>镜像安全：恶意镜像包含后门、基础镜像存在漏洞（如Alpine&#x2F;Linux的系统漏洞）；</li><li>容器安全：容器逃逸（利用内核漏洞突破容器隔离）、容器间网络互通导致横向渗透；</li><li>宿主机安全：Docker守护进程（Docker Daemon）权限过高、挂载宿主机目录导致文件篡改。</li></ul></li><li><p>Docker渗透测试步骤</p><ol><li>信息收集：扫描目标端口（2375&#x2F;tcp为Docker远程API端口），测试未授权访问；</li><li>镜像检测：拉取目标镜像，用 docker scan 检测漏洞，分析镜像内的配置文件&#x2F;敏感数据；</li><li>容器测试：进入容器后尝试提权、逃逸（如利用 cgroup &#x2F; cap_sys_admin 权限）；</li><li>宿主机渗透：通过挂载的宿主机目录写入恶意文件，或利用Docker API创建特权容器。</li></ol></li><li><p>Docker安全防护要点</p><ul><li>禁用Docker远程API的未授权访问，配置TLS认证；</li><li>使用非root用户运行容器，限制容器的内核能力（ –cap-drop ）；</li><li>定期更新镜像与Docker引擎，清理无用容器&#x2F;镜像。</li></ul></li><li><p>红蓝对抗视角的实战要领</p><ol><li>前后端分离架构中，优先通过接口模糊测试（如参数类型篡改、边界值测试）发现漏洞；</li><li>Docker环境渗透需掌握“容器→宿主机”的逃逸思路，重点关注内核漏洞与权限配置；</li><li>红蓝对抗中，可利用前后端分离的接口逻辑漏洞制造横向渗透，或通过Docker容器接管目标服务器。</li></ol></li><li><p>APP应用开发架构</p><ul><li>原生开发</li><li>H5语言开发</li><li>flutter开发</li><li>常规web开发</li></ul></li><li></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
